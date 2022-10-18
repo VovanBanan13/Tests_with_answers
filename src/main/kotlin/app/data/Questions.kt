@@ -1,7 +1,11 @@
 package app.data
 
+data class Test(
+    val questions: List<Question>
+)
+
 data class Question(
-    val question: String,
+    val item: String,
     val answers: List<Answer>
 )
 

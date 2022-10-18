@@ -10,7 +10,7 @@ class CheckAnswer {
             print("Ответ: ")
             val userAnswer = readln()
             val answerNumber = userAnswer.toInt()
-            if (answerNumber < 0 || answerNumber > question.answers.size)
+            if (answerNumber < 1 || answerNumber > question.answers.size)
                 throw ArrayIndexOutOfBoundsException()
             if (question.answers[answerNumber-1].check)
                 return true
@@ -23,6 +23,11 @@ class CheckAnswer {
             println("Вариант ответа не входит в диапазон, повторите: ")
             check(question)
         }
+        catch (e: Exception) {
+            println("Что-то не так, повторите: ")
+            check(question)
+        }
+
         return false
     }
 }

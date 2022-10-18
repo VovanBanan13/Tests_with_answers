@@ -1,50 +1,34 @@
 package app.service
 
-import app.data.Answer
-import app.data.Question
 import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Component
 
 @Component
 class ConsoleWork(
     private val printQuestion: PrintQuestion,
-    private val checkAnswer: CheckAnswer
+    private val checkAnswer: CheckAnswer,
+    private val jsonParser: JsonParser
     ) : CommandLineRunner {
 
     override fun run(vararg args: String?) {
         println("\n\t Начало работы приложения ")
 
-        val oneQuestion = Question(
-            "Сколько будет 2*2?",
-            listOf(
-                Answer("2"),
-                Answer("3"),
-                Answer("4", true),
-                Answer("5"),
-            )
-        )
-        val secondQuestion = Question(
-            "Сколько будет 2+2?",
-            listOf(
-                Answer("2"),
-                Answer("3"),
-                Answer("4", true),
-                Answer("5"),
-            )
-        )
-        val listQuestions = listOf(oneQuestion, secondQuestion)
+        val jsonFile = "src/main/resources/test.json"
+
+        val test = jsonParser.parse(jsonFile)
 
         var countRightAnswer = 0
 
-        for (q in listQuestions) {
+        for (q in test.questions) {
+            println()
             printQuestion.print(q)
             if (checkAnswer.check(q)) {
-                println("Верный ответ")
+                println("Правильно")
                 countRightAnswer += 1
             } else println("Не правильно")
         }
 
-        println("Тест завершён, верных ответов $countRightAnswer из ${listQuestions.size}")
+        println("\nТест завершён, верных ответов $countRightAnswer из ${test.questions.size}")
 
         println("\n\t Конец работы приложения ")
     }
